@@ -24,3 +24,20 @@ df_source = DataframeSource(example_text)
 #Create a VCorpus from df_source
 df_corpus = VCorpus(df_source)
 
+#Study stemDocument() from tm package
+text_data = 'In a complicated haste, Tom rushed to fix a new complication, too complicatedly.'
+
+#Firstly, remove punctuation
+(rm_punc = removePunctuation(text_data))
+
+#Secondly, create a vector of word from this:
+(char_vector = unlist(str_split(rm_punc, ' ')))
+
+#Then, create a stem words. However, some of them are not real, in this case is 'complic'
+(stem_doc = stemDocument(char_vector))
+
+#After that, create a dictionary for stem_doc:
+stem_dict = c("In", "a", "complicate", "haste", "Tom", "rush", "to", "fix", "new", "too")
+
+#Finally, apply stemCompletion() to stem_doc to get a meaning words from that.
+(stem_complete = stemCompletion(stem_doc, stem_dict))
