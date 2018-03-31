@@ -41,3 +41,30 @@ stem_dict = c("In", "a", "complicate", "haste", "Tom", "rush", "to", "fix", "new
 
 #Finally, apply stemCompletion() to stem_doc to get a meaning words from that.
 (stem_complete = stemCompletion(stem_doc, stem_dict))
+
+#Create a TDM (Term Document Matrix) from corpus.
+coffee_tdm = TermDocumentMatrix(coffee_corpus)
+
+#Then convert it to matrix type
+coffee_m = as.matrix(coffee_tdm)
+
+#How about dataframe?
+coffee_df = as.data.frame(coffee_m)
+
+#Convert row names to colummn:
+coffee_df = rownames_to_column(coffee_df, 'Term')
+
+#Create a new column for dataframe
+coffee_df = coffee_df %>% mutate(ObservedCount = rowSums(select(coffee_df, -1)))
+
+#Arrange this dataframe:
+coffee_df = coffee_df %>% arrange(desc(ObservedCount))
+
+#Get the top 15 observed terms from this dataframe
+top15Term = coffee_df[1:15, c(1, 1002)]
+
+#Create a bar plot for these terms
+#reorder() function is used to make geom_col() does not sort the x axis
+#In this line, it sorts term base on reducing the value of ObservedCount.
+#If want to increase, just delete '-' before ObservedCount.
+ggplot(top15Term, aes(x = reorder(Term, -ObservedCount), y = ObservedCount)) + geom_col()
