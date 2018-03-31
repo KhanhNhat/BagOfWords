@@ -41,3 +41,18 @@ stem_dict = c("In", "a", "complicate", "haste", "Tom", "rush", "to", "fix", "new
 
 #Finally, apply stemCompletion() to stem_doc to get a meaning words from that.
 (stem_complete = stemCompletion(stem_doc, stem_dict))
+
+#Create TDM (Term Document Matrix)
+coffee_tdm = TermDocumentMatrix(coffee_corpus)
+
+#Convert TDM to matrix
+coffee_m = as.matrix(coffee_tdm)
+
+#Calculate the row sum:
+term_frequency = rowSums(coffee_m)
+
+#Sort term_frequency:
+term_frequency = sort(term_frequency, decreasing = TRUE)
+
+#Display barplot for the top 15
+barplot(term_frequency[1:15], col = 'tan', las = 2)
