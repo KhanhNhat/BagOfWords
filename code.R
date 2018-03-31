@@ -41,3 +41,7 @@ stem_dict = c("In", "a", "complicate", "haste", "Tom", "rush", "to", "fix", "new
 
 #Finally, apply stemCompletion() to stem_doc to get a meaning words from that.
 (stem_complete = stemCompletion(stem_doc, stem_dict))
+
+#Create frequency by freq_terms from qdap package
+frequency = freq_terms(tweets$text, top = 10, at.least = 3, stopwords = 'Top200Words')
+plot(frequency)
