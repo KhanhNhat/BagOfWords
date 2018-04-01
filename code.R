@@ -56,3 +56,10 @@ term_frequency = sort(term_frequency, decreasing = TRUE)
 
 #Display barplot for the top 15
 barplot(term_frequency[1:15], col = 'tan', las = 2)
+
+#Now try to make a word cloud.
+library(wordcloud)
+
+term_frequency_df = data.frame(term = names(term_frequency), num = term_frequency)
+
+wordcloud(words = term_frequency_df$term, freq = term_frequency_df$num, max.words = 100, colors = 'blue')
