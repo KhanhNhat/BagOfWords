@@ -94,3 +94,10 @@ clean_coffee_df[1:10, c(1, 1002)]
 
 wordcloud(words = clean_coffee_df$Term, freq = clean_coffee_df$numOfTerm,
           max.words = 50, colors = c('grey50', 'deepskyblue', 'blue'))
+
+#Using color palette from RColorBrewer package:
+library(RColorBrewer)
+colSelect = brewer.pal(9, 'Blues')
+colSelect = colSelect[4:9]
+wordcloud(words = clean_coffee_df$Term, freq = clean_coffee_df$numOfTerm,
+          max.words = 50, colors = colSelect)
