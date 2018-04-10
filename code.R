@@ -63,3 +63,34 @@ library(wordcloud)
 term_frequency_df = data.frame(term = names(term_frequency), num = term_frequency)
 
 wordcloud(words = term_frequency_df$term, freq = term_frequency_df$num, max.words = 100, colors = 'blue')
+
+#Create a clean corpus function to make text resource be properly
+clean_corpus = function(corpus){
+  corpus = tm_map(corpus, removePunctuation)
+  corpus = tm_map(corpus, stripWhitespace)
+  corpus = tm_map(corpus, removeNumbers)
+  corpus = tm_map(corpus, content_transformer(tolower))
+  corpus = tm_map(corpus, removeWords, c(stopwords('en'), 'coffee'))
+  
+  return(corpus)
+}
+
+#Now, clean up corpus before text analysis
+clean_coffee = clean_corpus(coffee_corpus)
+
+clean_coffee_tdm = TermDocumentMatrix(clean_coffee)
+
+clean_coffee_m = as.matrix(clean_coffee_tdm)
+
+clean_coffee_df = as.data.frame(clean_coffee_m)
+
+clean_coffee_df = rownames_to_column(clean_coffee_df, var = 'Term')
+
+clean_coffee_df = clean_coffee_df %>% mutate(numOfTerm = rowSums(clean_coffee_df[, -1]))
+
+clean_coffee_df = arrange(clean_coffee_df, desc(numOfTerm))
+
+clean_coffee_df[1:10, c(1, 1002)]
+
+wordcloud(words = clean_coffee_df$Term, freq = clean_coffee_df$numOfTerm,
+          max.words = 50, colors = 'blue')
