@@ -93,4 +93,4 @@ clean_coffee_df = arrange(clean_coffee_df, desc(numOfTerm))
 clean_coffee_df[1:10, c(1, 1002)]
 
 wordcloud(words = clean_coffee_df$Term, freq = clean_coffee_df$numOfTerm,
-          max.words = 50, colors = 'blue')
+          max.words = 50, colors = c('grey50', 'deepskyblue', 'blue'))
